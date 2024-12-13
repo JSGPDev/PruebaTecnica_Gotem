@@ -1,0 +1,46 @@
+{% extends "basics.html" %}
+{% block title %}
+    Gotem-Prueba | Crear Formulario
+{% endblock title %}
+
+{% block content %}
+<main class="reverse-row" doc-title="form-builder">
+    <section class="container forms-container form-bulding">
+        <form action="new" method="POST" id="form-building" formId="">
+            {% csrf_token %}
+            <input class="background-input title" type="text" name="name" id="new-form-name" placeholder="Nombre" />
+        </form>
+    </section>
+
+
+    <sectiom class="buidel-controls">
+        <div class="column">
+            <div class="row">
+                <div class = "column container" >
+                    <h3 class="title">Nuevo Campo</h3>
+                    <input type="text" id="new-group-name" placeholder="Etiqueta" />
+                    <textarea id="new-group-header" placeholder="Encabezado"> </textarea> 
+                </div>
+                <select id="new-field-type">
+                    <option value="null" disabled selected>Seleccione un campo</option>
+                    {% for entity in entitys %}
+                        <option value="{{entity.id}}" entityType="{{entity.type}}">{{entity.name}}</option>
+                    {% endfor %}
+                </select>    
+                <input type="text" id="new-field-name" placeholder="Nombre" />
+                <input type="text" id="new-field-text" placeholder="Texto" />
+            </div>
+
+            <div class="row">
+                <button type="button" id="add-field">Agregar Campo</button>
+                <button type="button" id="restart-field">limpiar Campo</button>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <button type="button" id="create-form">Guardar Formulario</button>
+        </div>
+    </section>
+</main>
+{% endblock content %}

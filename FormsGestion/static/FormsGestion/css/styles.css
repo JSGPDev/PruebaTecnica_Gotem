@@ -1,0 +1,33 @@
+.row{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.reverse-row{
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+}
+
+.container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-bulding{
+    width: 70%;
+    margin: 0 auto;
+}
+
+.buidel-controls{
+    width: 30%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,0 +1,17 @@
+{% extends "basics.html" %}
+{% block title %}
+    Gotem-Prueba | Formularios
+{% endblock title %}
+
+{% block content %}
+<section class="container">
+    <h1>Formularios</h1>
+    <div class="row forms-preview-container">
+        {% for form in forms %}
+            <div class="column square">
+                <a href="forms/show/{{form.id}}">{{form.name}}</a>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}

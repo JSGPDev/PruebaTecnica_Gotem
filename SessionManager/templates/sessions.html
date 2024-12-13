@@ -1,0 +1,77 @@
+{% extends "headers.html" %}
+{% load static %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'SessionManager/css/styles.css' %}" />
+{% endblock custom_style %}
+
+{% block main_Js %}
+    <script src="{% static 'SessionManager/js/Main.js' %}"></script>
+{% endblock main_Js %}
+
+{% block title %}
+    Binevenido a Gotem
+{% endblock title %}
+
+{% block content %}
+    <body>
+        <main class="row">
+            <section title="Iniciar Sesion" id="login" class="container text-center column animateWidth selectRegister selected">
+                <h2 class="title frame right-arrow">Iniciar Sesión</h2>
+                <form method="POST" action="/session/login" class="form">
+                {% csrf_token %}
+                <div class="row right-arrow">
+                    <label class="animateWidth" for="email">Correo</label>
+                    <input class="animateWidth" type="email" name="email" placeholder="Correo" required />
+                </div>
+                <div class="row right-arrow">
+                    <label class="animateWidth" for="password">Contraseña</label>
+                    <input
+                    class="animateWidth"
+                    type="password"
+                    name="password"
+                    placeholder="Contraseña"
+                    minlength="8"
+                    required
+                    />
+                </div>
+                <div class="row button-container">
+                    <input type="reset" value="Limpiar" />
+                    <input type="submit" value="Iniciar Sesión" />
+                </div>
+                </form>
+            </section>
+            <section title="Registrarse" id="register" class="container text-center column animateWidth selectLogin unSelected">
+                <h2 class="title frame left-arrow">Registrarse</h2>
+                <form method="POST" action="/session/register" class="form">
+                {% csrf_token %}
+                <div class="row left-arrow">
+                    <label class="animateWidth" for="name">Nombre</label>
+                    <input class="animateWidth" type="text" name="name" placeholder="Nombre" required />
+                </div>
+
+                <div class="row left-arrow">
+                    <label class="animateWidth" for="email">Correo</label>
+                    <input class="animateWidth" type="email" name="email" placeholder="Correo" required />
+                </div>
+
+                <div class="row left-arrow">
+                    <label class="animateWidth" for="password">Contraseña</label>
+                    <input
+                    class="animateWidth"
+                    type="password"
+                    name="password"
+                    placeholder="Contraseña"
+                    minlength="8"
+                    required
+                    />
+                </div>
+                <div class="row button-container">
+                    <input type="reset" value="Limpiar" />
+                    <input type="submit" value="Registrarse" />
+                </div>
+                </form>
+            </section>
+        </main>
+    </body>
+{% endblock content %}

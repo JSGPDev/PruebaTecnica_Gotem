@@ -1,0 +1,86 @@
+{% extends "basics.html" %}
+{% block title %}
+    Gotem-Prueba | formulario {{form.name}}
+{% endblock title %}
+
+{% block content %}
+<main doc-title="form-view">
+    <section class="container forms-container">
+        <h1 class="text-center title">{{form.name}}</h1>
+
+        <form class="" action="" method="" name="{{form.name}}">
+            {% csrf_token %}
+            {% for group in groups %}
+                <div class="form-group column">
+                    <h2 class="title left">{{group.name}}</h2>
+                    <p class="text frame">{{group.header}}</p>
+                    {% for field in group.fields %}
+                        <div class="row">
+                            <label for="{{field.name}}">{{field.text}}:</label>
+                            {% if field.type == 'input' %}
+                                <input type="{{field.tag}}" name="{{field.name}}" id="{{field.tag}}-{{field.name}}" placeholder="{{field.text}}">
+                            {% elif field.type == 'select' %}
+                                <select name="{{field.name}}" id="{{field.tag}}-{{field.name}}">
+                                    {{field.specials|safe}}
+                                </select>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </form>
+    </section>
+</main>
+
+{% endblock content %}
+
+<!--
+    {
+    "form": {
+        "id": 1,
+        "name": "formulario de animales",
+        "date": "2024-12-13T20:48:38.828Z"
+    },
+    "groups": [
+        {
+        "id": 1,
+        "name": "animales",
+        "header": " te gustan?",
+        "fields": [
+            {
+            "id": 1,
+            "name": "respueta-te gustan",
+            "type": "input",
+            "tag": "radio",
+            "text": "si",
+            "specials": ""
+            },
+            {
+            "id": 2,
+            "name": "respueta-te gustan",
+            "type": "input",
+            "tag": "radio",
+            "text": "no",
+            "specials": ""
+            },
+            {
+            "id": 3,
+            "name": "favorito",
+            "type": "select",
+            "tag": "select",
+            "text": "no",
+            "specials": "\u003Coption value=\"\" disabled=\"\" selected=\"\"\u003ESeleccione una opcion\u003C/option\u003E\u003Coption value=\"perro\"\u003Eperro\u003C/option\u003E\u003Coption value=\"gato\"\u003Egato\u003C/option\u003E"
+            },
+            {
+            "id": 4,
+            "name": "favorito-personalizado",
+            "type": "input",
+            "tag": "input",
+            "text": "",
+            "specials": ""
+            }
+        ]
+        }
+    ]
+    }
+-->

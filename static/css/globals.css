@@ -1,0 +1,16 @@
+:root {
+    --background-main: #aa8989;
+    --background-secondary: #e6b5b5;
+    --text-main: #e7d8d8;
+    --text-secondary: #573b3b;
+    --text-muted: #7c7474;
+    --text-hover: #757575;
+    --border-color: #757575;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
