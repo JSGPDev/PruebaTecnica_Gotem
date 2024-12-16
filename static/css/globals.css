@@ -1,12 +1,18 @@
 :root {
+    --header-background: #aa8989;
+    --header-height: 50px;
+
     --background-main: #aa8989;
     --background-secondary: #e6b5b5;
+    --background-tertiary: #999c6d;
+
     --text-main: #e7d8d8;
     --text-secondary: #573b3b;
     --text-muted: #7c7474;
     --text-hover: #757575;
+    --text-link: #3e836d;
     --border-color: #757575;
-    --shadow-color: rgba(0, 0, 0, 0.2);
+    --shadow-color: rgba(0, 0, 0, 0.5);
 }
 
 *{

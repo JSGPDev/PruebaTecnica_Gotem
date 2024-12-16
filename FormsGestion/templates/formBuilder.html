@@ -4,41 +4,53 @@
 {% endblock title %}
 
 {% block content %}
-<main class="reverse-row" doc-title="form-builder">
-    <section class="container forms-container form-bulding">
-        <form action="new" method="POST" id="form-building" formId="">
+
+{% include "options.html" %}
+
+<main class="reverse-row primary-background" doc-title="form-builder">
+    <section class="form-bulding container forms-container">
+        <form action="new" method="POST" id="form-building" formId="" class="full-height overflow-y">
             {% csrf_token %}
-            <input class="background-input title" type="text" name="name" id="new-form-name" placeholder="Nombre" />
+            <div class="field-container">
+                <input class="background-input" type="text" name="name" id="new-form-name" placeholder="Nombre del Formulario" />
+                <label for="new-form-name" class="secondary-background muted-color">Nombre del Formulario</label>
+            </div>
         </form>
     </section>
 
-
-    <sectiom class="buidel-controls">
-        <div class="column">
-            <div class="row">
-                <div class = "column container" >
-                    <h3 class="title">Nuevo Campo</h3>
-                    <input type="text" id="new-group-name" placeholder="Etiqueta" />
-                    <textarea id="new-group-header" placeholder="Encabezado"> </textarea> 
+    <sectiom class="buider-controls full-height">
+        <div class="full-width column space-between none-top-margin">
+            <div class = "column container none-top-margin" >
+                <h3 class="title muted-color">Nuevo Campo</h3>
+                <div class="field-container">
+                    <input type="text" id="new-group-name" placeholder="Grupo de prguntas" />
+                    <label for="new-group-name">Grupo de preguntas</label>
                 </div>
-                <select id="new-field-type">
+                <textarea id="new-group-header" placeholder="Tu pregunta..."></textarea> 
+            </div>
+
+            <div class="full-width column none-bottom-margin">
+                <select id="new-field-type" class="auto-margin">
                     <option value="null" disabled selected>Seleccione un campo</option>
                     {% for entity in entitys %}
                         <option value="{{entity.id}}" entityType="{{entity.type}}">{{entity.name}}</option>
                     {% endfor %}
-                </select>    
-                <input type="text" id="new-field-name" placeholder="Nombre" />
-                <input type="text" id="new-field-text" placeholder="Texto" />
+                </select>
+                
+                <div class="row full-width">
+                    <div class="field-container width-m full-width" id="new-field-text-container">
+                        <input type="text" id="new-field-text" placeholder="Texto" />
+                        <label class="full-width" for="new-field-text">Texto</label>
+                    </div>
+                </div>
             </div>
-
-            <div class="row">
+        </div>
+        
+        <div class="full-width space-between none-bottom-margin button-container">
+            <div class="row auto-margin">
                 <button type="button" id="add-field">Agregar Campo</button>
                 <button type="button" id="restart-field">limpiar Campo</button>
             </div>
-        </div>
-
-        <div class="row">
-
             <button type="button" id="create-form">Guardar Formulario</button>
         </div>
     </section>

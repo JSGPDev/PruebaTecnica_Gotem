@@ -4,14 +4,47 @@
 {% endblock title %}
 
 {% block content %}
-<section class="container">
-    <h1>Formularios</h1>
-    <div class="row forms-preview-container">
-        {% for form in forms %}
-            <div class="column square">
-                <a href="forms/show/{{form.id}}">{{form.name}}</a>
+{% include "options.html" %}
+<body class="primary-background">
+    <main doc-title="show-forms">
+        <section class="no-overflow full-width full-height column primary-background">
+            {% csrf_token %}
+            <h1 class="title frame right-arrow left-arrow secondary-background muted-color">Formularios</h1>
+            <div class="row forms-preview-container frame y-overflow">
+                {% if forms|length > 0 %}
+                    {% for form in forms %}
+                        <div class="column square" formId="{{form.id}}">
+                            <div class="full-width a-container"> 
+                                <a href="forms/show/{{form.id}}">{{form.name}}</a>
+                            </div>
+                            <div class="icon-container row">
+                                <abbr title="Eliminar formulario">
+                                    <span id="delete-form" class="delete-form trash-icon" formId="{{form.id}}"></span>
+                                </abbr>
+                                <a href="/FormsGestion/forms/show-responses/{{form.id}}"><abbr title="Ver respuestas del formulario">
+                                    <span id="view-form-response" class="view-form-response external-icon" formId="{{form.id}}"></span>
+                                </abbr>
+                                </a>
+                                <abbr title="Editar formulario">
+                                    <span id="edit-form" class="edit-form pencil-icon" formId="{{form.id}}"></span>
+                                </abbr>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="column square">
+                        <a href="/FormsGestion/forms/create">
+                            <div class="full-width a-container"> 
+                                <a href="/FormsGestion/forms/create">Crear un formulario</a>
+                            </div>
+                            <div class="icon-container row">
+                                <span id="create-icon" class="option muted-color" style="transform: scale(1.1); margin-bottom: 15px;"></span>
+                            </div>
+                        </a>
+                    </div>
+                {% endif %}
             </div>
-        {% endfor %}
-    </div>
-</section>
+        </section>
+    </main>
+</body>
 {% endblock content %}

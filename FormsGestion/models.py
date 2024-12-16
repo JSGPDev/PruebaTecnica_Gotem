@@ -39,3 +39,12 @@ class FormField(models.Model):
 
     def __str__(self):
         return f"{self.name}-{self.type.name}"
+    
+class FieldResponse(models.Model):
+    id= models.AutoField(primary_key=True)
+    user = models.ForeignKey(users, on_delete=models.CASCADE)
+    field = models.ForeignKey(FormField, on_delete=models.CASCADE)
+    response = models.TextField()
+
+    def __str__(self):
+        return f"{self.field}-{self.response}"

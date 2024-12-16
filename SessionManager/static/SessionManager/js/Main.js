@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
   $(".unSelected form").hide();
 
   $(".selectLogin").click(function () {
@@ -29,5 +30,29 @@ $(document).ready(function () {
         })
     }
   });
+  
+  $("form").each(function() {
+    const form = $(this);
+    const email_field = form.find("input[name=email]");
+    const label = form.find("label[for=email]");
+  
+    email_field.change(function (e) { 
+      label.text(e.target.value);
+    });
+
+    const password_label = form.find("label[for=password]");
+    const password_field = form.find("input[name=password]");
+
+    password_label.click(function () {
+      password_field.attr('type', 'text');
+    });
+
+    password_field.focusout(function () {
+      password_field.attr('type', 'password');
+
+    });
+  });
+
+
 
 });

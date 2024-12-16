@@ -1,0 +1,32 @@
+<sectiom id="options" class="container full-width not-overflow">
+    {% load static %}
+    <script src="{% static 'FormsGestion/js/options_controller.js' %}"></script>
+
+    <span id="options-icon"></span>
+
+    <div id="options-container" class="options-closed">
+        <nav id="options-nav">
+            {% if logged == True %}
+                <abbr title="Ver todos los formularios">
+                    <a href="/FormsGestion/forms" class="option-top column">
+                        <span id="forms-icon" class="option"></span>
+                    </a>
+                </abbr>
+                <abbr title="Crear un nuevo formulario">
+                    <a href="/FormsGestion/forms/create" class="option-center column">
+                        <span id="create-icon" class="option"></span>
+                    </a>
+                </abbr>
+                <abbr title="Cerrar sesion">
+                    <a href="/session/logout" class="option-bottom column">
+                        <span id="logout-icon" class="option"></span>
+                    </a>
+                </abbr>
+            {% else %}
+                <a href="/" class="option-center column">
+                    <span id="login-icon" class="option"></span>
+                </a>
+            {% endif %}
+        </nav>
+    </div>
+</sectiom>

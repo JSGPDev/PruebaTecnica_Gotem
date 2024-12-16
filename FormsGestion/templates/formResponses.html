@@ -1,0 +1,41 @@
+{% extends "basics.html" %}
+{% block title %}
+    Gotem-Prueba | respuestas para {{form.name}}
+{% endblock title %}
+
+{% block content %}
+{% include "options.html" %}
+<body>
+
+    <h1 class="title frame right-arrow left-arrow secondary-background muted-color">Respuestas al Formulario: {{ form.name }}</h1>
+    
+    <div class="container forms-container full-width">
+        <p><strong>ID del formulario:</strong> {{ form.id }}</p>
+        <p><strong>Fecha de creación:</strong> {{ form.date }}</p>
+
+        <a class="big-margin" href="?download=true"><button>Descargar respuestas en Excel</button></a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID Respuesta</th>
+                <th>Usuario</th>
+                <th>Campo</th>
+                <th>Respuesta</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for response in form.responses %}
+            <tr>
+                <td>{{ response.id }}</td>
+                <td>{{ response.user }}</td>
+                <td>{{ response.field }}</td>
+                <td>{{ response.response }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+{% endblock content %}
+

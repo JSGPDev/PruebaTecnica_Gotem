@@ -4,33 +4,40 @@
 {% endblock title %}
 
 {% block content %}
-<main doc-title="form-view">
-    <section class="container forms-container">
-        <h1 class="text-center title">{{form.name}}</h1>
+{% include "options.html" %}
 
-        <form class="" action="" method="" name="{{form.name}}">
+<body class="primary-background y-overflow">
+<main doc-title="form-view" class="y-overflow">
+    <section class="container forms-container full-width">
+        <h1 class="text-center title muted-color secondary-background right-arrow">{{form.name}}</h1>
+        <form id="form-view" formId="{{ form.id }}" action="" method="" name="{{ form.name }}">
             {% csrf_token %}
             {% for group in groups %}
+                <h2 class="group-title left-arrow secondary-background muted-color">{{ group.name }}</h2>
                 <div class="form-group column">
-                    <h2 class="title left">{{group.name}}</h2>
-                    <p class="text frame">{{group.header}}</p>
+                    <p class="text field-cuestion">{{ group.header }}</p>
                     {% for field in group.fields %}
-                        <div class="row">
-                            <label for="{{field.name}}">{{field.text}}:</label>
+                        <div class="field-container" field_type = "{{field.type}}-{{field.tag}}-{{field.name}}">
                             {% if field.type == 'input' %}
-                                <input type="{{field.tag}}" name="{{field.name}}" id="{{field.tag}}-{{field.name}}" placeholder="{{field.text}}">
+                                <input class="field" type="{{ field.tag }}" name="{{ field.name }}" id="{{ field.tag }}-{{field.id}}-{{ field.name }}" placeholder="{{ field.text }}" field_id="{{ field.id }}" value="{{ field.text }}">
+                                <label for="{{ field.tag }}-{{field.id}}-{{ field.name }}">{{ field.text }}:</label>
                             {% elif field.type == 'select' %}
-                                <select name="{{field.name}}" id="{{field.tag}}-{{field.name}}">
-                                    {{field.specials|safe}}
+                                <select class="field" type="{{ field.tag }}" title="{{ field.name }}" name="{{ field.name }}" id="{{ field.tag }}-{{ field.name }}" field_id="{{ field.id }}" value="">
+                                    {{ field.specials|safe }}
                                 </select>
                             {% endif %}
                         </div>
                     {% endfor %}
                 </div>
             {% endfor %}
+            <div class="row form-button-container">
+                <input type="reset" value="Limpiar">
+                <input type="submit" value="Enviar">
+            </div>
         </form>
     </section>
 </main>
+</body>
 
 {% endblock content %}
 
