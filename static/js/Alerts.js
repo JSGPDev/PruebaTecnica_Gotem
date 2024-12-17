@@ -284,7 +284,6 @@ function showAlert(title, icon, text, can_cancel = false, close_timmer, accept =
 
     const alert = CreateAlert(title, icon, text, can_cancel, accept, cancel);
 
-    // Verificar si los estilos ya están definidos antes de añadirlos
     if (!$('#alert-styles').length) {
         $('head').append(styles);
     }

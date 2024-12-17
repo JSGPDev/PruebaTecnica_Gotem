@@ -163,7 +163,6 @@ function form_builder(){
                 select_options_controller.append(new_option_input);
                 select_options_controller.append(add_option_btn);
     
-                // Agrega el evento dinámicamente al botón
                 add_option_btn.on("click", function () {
                     add_option_to(group_header,select, new_options_name);
                 });

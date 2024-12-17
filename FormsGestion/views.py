@@ -104,7 +104,6 @@ def show_form(request, id):
             })
 
     return render(request, 'viewForm.html', data)
-    #return JsonResponse(data)
 
 def update_form(request):
     try:
@@ -155,29 +154,22 @@ def show_form_responses(request, id):
     if(form.creator.id != request.session.get('user_id')):
         return redirect('/FormsGestion')
 
-    # Verifica si se solicita la descarga del archivo Excel
     if 'download' in request.GET:
-        # Crear el archivo Excel
         wb = Workbook()
         ws = wb.active
         ws.title = 'Respuestas'
 
-        # Encabezado de la tabla
         ws.append(['ID Respuesta', 'Usuario', 'Campo', 'Respuesta'])
 
-        # Agregar las respuestas al archivo Excel
         for response in responses:
             ws.append([response.id, response.user.email, response.field.name, response.response])
 
-        # Crear una respuesta HTTP para el archivo Excel
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename="respuestas_formulario.xlsx"'
 
-        # Guardar el archivo Excel en la respuesta HTTP
         wb.save(response)
         return response
 
-    # Si no se solicita la descarga, solo se renderiza el HTML
     return render(request, 'formResponses.html', {
         'form': {
             'id': form.id,
