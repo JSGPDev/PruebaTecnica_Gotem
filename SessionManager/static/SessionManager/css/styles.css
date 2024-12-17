@@ -44,13 +44,16 @@
 .frame{
     padding: 1rem;
     box-shadow: 0 0 10px var(--shadow-color);
+    width: 50%;
 }
 
-.title{
-    font-size: 2rem;
+.title {
+    font-size: 100%;
     margin-bottom: 2rem;
     color: var(--text-main);
-    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .right-arrow{
@@ -157,4 +160,14 @@ form label {
     cursor: pointer;
     opacity: 100%;
     transition: font-size 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+
+@media screen and (max-width: 350px) {
+    .selected{
+        width: 90%;
+    }
+
+    .unSelected{
+        width: 10%;
+    }
 }

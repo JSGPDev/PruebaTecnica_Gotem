@@ -58,53 +58,55 @@ function response_manager() {
 
    form.on('submit', function (e) {
         e.preventDefault();
-        let fields_responses =[];
+        showAlert('Cuidado', 'alert-warning-icon', 'Esta seguro de enviar el formulario? No se podra revertir', true, false, () => {
+        
+            let fields_responses =[];
 
-        const fields = $(".field");
+            const fields = $(".field");
 
-        fields.each(function () {
-            const field = $(this);
+            fields.each(function () {
+                const field = $(this);
 
-            const response = {
-                "id": $(this).attr("field_id"),
-                "response": ""
-            };
-            
-            const field_name = field.attr("name");
-            const field_value = field.val();
+                const response = {
+                    "id": $(this).attr("field_id"),
+                    "response": ""
+                };
+                
+                const field_name = field.attr("name");
+                const field_value = field.val();
 
-            if(field.attr("type") === "radio"){
-                if(field.is(':checked')){
+                if(field.attr("type") === "radio"){
+                    if(field.is(':checked')){
+                        response.response = field_value;
+                    }
+                }else{
                     response.response = field_value;
                 }
-            }else{
-                response.response = field_value;
-            }
 
-            fields_responses.push(response);
-        });
+                fields_responses.push(response);
+            });
 
-        fields_responses = fields_responses.filter(field => field.response != "");
-        console.log(fields_responses);
+            fields_responses = fields_responses.filter(field => field.response != "");
+            console.log(fields_responses);
 
-        $.ajax({
-            type: "POST",
-            url: "/FormsGestion/forms/save-form-response",
-            data: {
-                csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
-                formId: form.attr("formId"),
-                responses: JSON.stringify(fields_responses)
-            },
-            success: function (response) {
-                console.log(response);
-                if(response.status == "success"){
-                    alert("Formulario guardado");
-                }else{
-                    alert(response.message);
+            $.ajax({
+                type: "POST",
+                url: "/FormsGestion/forms/save-form-response",
+                data: {
+                    csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+                    formId: form.attr("formId"),
+                    responses: JSON.stringify(fields_responses)
+                },
+                success: function (response) {
+                    console.log(response);
+                    if(response.status == "success"){
+                        showAlert('Correcto', 'alert-success-icon', 'Formulario guardado', false, 500);
+                    }else{
+                        showAlert('Error', 'alert-error-icon', response.message, false, false);
+                    }
                 }
-            }
+            });
         });
-
     });
 }
 

@@ -192,3 +192,37 @@ def show_form_responses(request, id):
         },
         "logged":request.session.get('logged')
     })
+
+
+    try:
+        form = FormStructure.objects.get(id=id)
+        groups = FieldGroup.objects.filter(structure=form)
+        data = {
+            'form': {
+                'id': form.id,
+                'name': form.name,
+                'date': form.date,},
+            'groups': [{
+                "id": group.id,
+                'name': group.name,
+                'header': group.header,
+                'fields': []
+            }for group in groups],
+            "logged":request.session.get('logged')
+        }
+
+        for group in data['groups']:
+            fields = FormField.objects.filter(group=group['id'])
+            for field in fields:
+                group['fields'].append({
+                    'id': field.id,
+                    'name': field.name,
+                    'type': field.type.type,
+                    'tag': field.type.name,
+                    'text': field.text,
+                    'specials': field.specials,
+                })
+
+        return render(request, 'editForm.html', data)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': f'Error inesperado: {str(e)}'})

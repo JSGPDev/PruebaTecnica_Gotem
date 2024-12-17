@@ -1,4 +1,6 @@
 function form_builder(){
+    responsive_setup();
+
     let groups = [];
     let last_header = "";
     let last_name = "";
@@ -14,8 +16,6 @@ function form_builder(){
         const new_form_name = $("#new-form-name").val();
         const csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
 
-        alert(form_id);
-
         $.ajax({
             type: form.attr("method"),
             url: form.attr("action"),
@@ -30,8 +30,9 @@ function form_builder(){
                     console.log(response.form.id);
                     update_form_id(response.form.id);
                     save_form_groups(response.form.id);
+                    showAlert('Correcto', 'alert-success-icon', 'Formulario guardado', false, 1000);
                 }else{
-                    alert(response.message);
+                    showAlert('Error', 'alert-error-icon', response.message, false, false);
                 }
             }
         })
@@ -67,12 +68,16 @@ function form_builder(){
         let created_object;
         let created_object_specials;
 
+        if (group_name === "") {showAlert('Error', 'alert-error-icon', 'El nombre del grupo no puede estar vacío.', false, false); return;}
+        if (group_header === "") {showAlert('Error', 'alert-error-icon', 'El encabezado del grupo no puede estar vacío.', false, false); return;}
+        if (field_text === "") {showAlert('Error', 'alert-error-icon', 'El texto del campo no puede estar vacío.', false, false); return;}
+
         if (new_field.length === 0) {
             new_field = $("<div>", {
                 class: "form-group column",
                 group: `${group_indicator}`,
                 id: `${group_indicator}`,
-                html: group_name != last_name ? `<h2 class="group-title left-arrow secondary-background muted-color">${group_name}</h2>` : ""
+                html: group_name != last_name ? `<h2 group="${group_indicator}" class="group-title left-arrow secondary-background muted-color">${group_name}</h2>` : ""
             });
         } else {
             console.log("Elemento ya existe. Usando el existente.");
@@ -93,14 +98,13 @@ function form_builder(){
             const inserted_field = $(`#${group_indicator}`);
             const inserted_field_title = inserted_field.find('.group-title').remove();
 
-            alert("titulo del grupo insertado "+ inserted_field_title.text()); 
             inserted_field.before(inserted_field_title);
         }
 
         const doc_header_instance = $(`#${group_indicator}-header`);
 
         const labbel = $("<label>",{
-            for: `${field_type}-${field_name}`,
+            for: `${field_type}-${field_name}-${field_text}`,
             text: field_text.replace(/-/g," ")
         });
 
@@ -110,7 +114,7 @@ function form_builder(){
                     type: field_tag,
                     name: field_name,
                     group: `group|${field_type}|${field_name}`,
-                    id: "input-" + field_name,
+                    id: "input-" + field_name + "-" + field_text,
                     placeholder: field_text
                 });
             break;
@@ -119,12 +123,12 @@ function form_builder(){
                 const select = $("<select>", {
                     name: field_name,
                     group: `group|${field_type}|${field_name}`,
-                    id: "select-" + field_name,
+                    id: "select-" + field_name + "-" + field_text,
                     html: `<option value="" disabled selected>${field_text}</option>`
                 });
 
                 const select_options_controller = $("<div>",{
-                    class: "row",
+                    class: "row add_option_bottons_container",
                     group: `group|${field_name}`
                 });
 
@@ -132,12 +136,13 @@ function form_builder(){
                     type: "text",
                     group: `group|${field_name}`,
                     id: field_name + "-new-option",
-                    placeholder: "Agregar opcion"
+                    placeholder: "Opcion"
                 })
 
                 const new_option_name_label = $("<label>",{
                     for: field_name + "-new-option",
-                    text: "Agregar Opcion"
+                    style: "width: 100%",
+                    text: "Opcion"
                 })
     
                 const add_option_btn = $("<button>", {
@@ -171,7 +176,7 @@ function form_builder(){
                 created_object = $(`<${field_tag}>`, {
                     name: field_name,
                     group: `group|${field_type}|${field_name}`,
-                    id: `${field_tag}-${field_name}`,
+                    id: `${field_tag}-${field_name}-${field_text}`,
                     text: field_text
                 });
 
@@ -193,11 +198,51 @@ function form_builder(){
 
         doc_header_instance.after(field_container);
 
+        const erase_icon = $('<span>',{
+            class: "remove-field trash-icon",
+            parent_group: group_indicator
+        });
+
+        field_container.append(erase_icon);
+
+        erase_icon.on("click", function () {
+            showAlert('Eliminar Campo', 'alert-warning-icon', 'Desea eliminar el campo?', true, false, () => {
+                
+                const field_object = created_object;
+            
+                const group = groups.find(group => 
+                    group.fields.some(field => field.object === field_object)
+                );
+            
+                if (group) {
+                    group.fields = group.fields.filter(field => field.object !== field_object);
+                    
+                    console.log(group.fields);
+            
+                    if (group.fields.length === 0) {
+                        groups = groups.filter(g => g !== group);
+                        $(`[group=${group_indicator}]`).remove();
+                        last_header = '';
+                        last_name = '';
+                    }
+                }
+            
+                const field_next_div = $(this).parent().next('.add_option_bottons_container');
+                if(field_next_div.length > 0){
+                    field_next_div.remove();
+                }
+
+                $(this).parent().remove();
+
+
+                console.log(groups);
+            });
+        });
+
         setup_text_labels();
             
         if(!groups.find(group => group.header === group_header))
             {
-                alert("crear grupo");
                 push_to_groups(group_name,group_header);
             }
         let group = groups.find(group => group.header === group_header);
@@ -216,7 +261,8 @@ function form_builder(){
 
         const new_option_name = input.val();
         if(new_option_name == ""){
-            alert("Ingrese un nombre");
+            showAlert('Error', 'alert-error-icon', 'Debe ingresar una opcion', false, false);
+            return;
         }else{
             select.append(`<option value="${new_option_name}">${new_option_name}</option>`);
             input.val("");
@@ -224,7 +270,7 @@ function form_builder(){
 
             g.fields.find(field => field.object === select).specials = select.html();
             console.log(g.fields.find(field => field.object === select).specials);
-            alert("Opcion agregada");
+            showAlert('Correcto', 'alert-success-icon', 'Opcion agregada', false, 1000);
         }
     }
 
@@ -242,10 +288,10 @@ function form_builder(){
             success: function (response) {
                 console.log(response);
                 if(response.status == "success"){
-                    alert("Formulario guardado");
+                    showAlert('Correcto', 'alert-success-icon', 'Formulario guardado', false, 1000);
                     groups = [];
                 }else{
-                    alert(response.message);
+                    showAlert('Error', 'alert-error-icon', response.message, false, false);
                 }
             }
         })
@@ -285,6 +331,32 @@ function form_builder(){
             })
         });
     }
+}
+
+function responsive_setup(){
+    $('#show-buider-controls div').click(function () {
+        $('.buider-controls').addClass('buider-controls-open');
+        $(this).fadeOut(1000);
+    });
+
+    $('#close-buider-controls').click(function () {
+        $('.buider-controls').removeClass('buider-controls-open');
+        $('#show-buider-controls div').fadeIn(1000);
+    });
+
+    $('#create-form').click(function () {
+        if($('.buider-controls').hasClass('buider-controls-open')){
+            $('.buider-controls').removeClass('buider-controls-open');
+            $('#show-buider-controls div').fadeIn(1000);
+        }
+    });
+
+    $('#add-field').click(function () {
+        if($('.buider-controls').hasClass('buider-controls-open')){
+            $('.buider-controls').removeClass('buider-controls-open');
+            $('#show-buider-controls div').fadeIn(1000);
+        }
+    });
 }
 
 export {form_builder};

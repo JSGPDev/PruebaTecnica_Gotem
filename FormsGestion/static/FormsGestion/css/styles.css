@@ -28,6 +28,7 @@ form{
     justify-content: center; 
     gap: 1rem; 
     padding: 1rem;
+    width: 100%;
     background-color: var(--background-secondary); 
     border: 1px solid var(--border-color);
     border-radius: 8px; 
@@ -46,6 +47,12 @@ button {
     font-size: 1rem; 
     cursor: pointer; 
     transition: background-color 0.3s, transform 0.2s; 
+
+    text-align: center;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .form-button-container input[type="reset"]:hover,
@@ -55,7 +62,7 @@ button:hover {
     background-color: var(--background-tertiary); 
     color: var(--text-hover); 
     transform: scale(1.05); 
-    margin: auto 5px;
+    margin: auto;
 }
 
 .form-button-container input[type="reset"]:active,
@@ -326,6 +333,8 @@ input[type="text"]{
 
 select{
     border: none;
+    width: 50%;
+    max-width: 150px;
 }
 
 input[type="radio"]{
@@ -582,6 +591,23 @@ input[type="text"]:focus + label{
     color: rgb(77, 160, 66);
 }
 
+.remove-field,
+.delete-field{
+    position: relative;
+    right: -70px;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Permite el desplazamiento horizontal */
+    margin: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
 table {
     width: 90%;
     border-collapse: collapse;
@@ -599,8 +625,28 @@ tr:hover {
     background-color: var(--text-hover);
 }
 
+.width-xl{
+    width: 90%;
+}
+
+.width-l{
+    width: 70%;
+}
+
 .width-m{
     width: 50%;
+}
+
+.width-s{
+    width: 30%;
+}
+
+.width-xs{
+    width: 20%;
+}
+
+.font-size-auto{
+    font-size: 100%;
 }
 
 .auto-margin{
@@ -961,5 +1007,136 @@ bottom: 5px;
     bottom: -25px;
     left: 55px;;
 }
+#show-buider-controls{
+    display: none;
+    height: 100vh;
+    width: 50px;
+
+    position: fixed;
+    left: 0;
+}
+
+#show-buider-controls div{
+    background-color: var(--background-secondary);
+}
+
+#show-buider-controls div:hover{
+    cursor: pointer;
+    color: var(--text-hover);
+    box-shadow: inset 0 0 10px var(--shadow-color);
+}
+
+#show-buider-controls-icon{
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs, 1));
+    background:
+      linear-gradient(to left, currentColor 10px, transparent 0) no-repeat 10px
+        2px/6px 2px,
+      linear-gradient(to left, currentColor 10px, transparent 0) no-repeat 12px 0/2px
+        6px;
+    width: 16px;
+    height: 16px;
+  }
+  #show-buider-controls-icon::after,
+  #show-buider-controls-icon::before {
+    content: "";
+    display: block;
+    position: absolute;
+    box-sizing: border-box;
+    width: 8px;
+    height: 14px;
+    border: 2px solid;
+    bottom: 0;
+  }
+  #show-buider-controls-icon::after {
+    width: 14px;
+    height: 8px;
+  }
+  
+  #close-buider-controls{
+    display: none;
+
+    width: 30px;
+    height: 30px;
+
+    background-color: var(--background-main);
+
+    border-radius: 15px;
+
+    cursor: pointer;
+
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+    margin: 16px 16px 0 auto;
+    z-index: 2;
+
+  }
+
+  #buld-form-buttons{
+    width: 100%;
+  }
+
+  #buld-form-buttons button{
+    width: 50%;
+    margin: 0 auto;
+    font-size: 75%;
+  }
+
+  #buld-form-buttons button:hover{
+    background-color: var(--background-tertiary);
+    color: var(--text-hover);
+    box-shadow: 0 0 10px var(--shadow-color);
+    transform: scale(1);
+  }
 
 /* -------------------- */
+
+/* media queries */
+
+@media screen and (max-width: 700px) {
+    .form-bulding{
+        width: 100%; 
+    }
+    #close-buider-controls{
+        display: flex;
+    }
+    #show-buider-controls{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .remove-field {
+        right: -16px;
+    }
+
+    .buider-controls{
+        width: 100%;
+        position: fixed;
+        right: 100%;
+
+        transition: right 0.5s ease-in-out;
+    }
+
+    .buider-controls-open{
+        right: 0;
+    }
+
+    .buider-controls button{
+        width: 50%;
+        font-size: 50%;
+    }
+
+    #create-form{
+        width: 50%;
+        margin: 0 auto 1rem auto;
+    }
+
+    .buider-controls textarea{
+        height: 150px;
+    }
+}

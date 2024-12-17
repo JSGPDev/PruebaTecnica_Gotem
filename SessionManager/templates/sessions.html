@@ -73,5 +73,21 @@
                 </form>
             </section>
         </main>
+
+        {% if showAlert %}
+
+        <script src="{% static 'js/Alerts.js' %}"></script>
+
+        <span 
+            id="show-alert"
+            title="{{ showAlert.title }}"
+            text="{{ showAlert.text }}"
+            icon="{{ showAlert.icon }}"
+            close_timmer="{{ showAlert.timmer }}"
+            can_cancel="{{ showAlert.can_cancel|yesno:"true,false" }}">
+            
+        </span>
+        {% endif %}
+        
     </body>
 {% endblock content %}
