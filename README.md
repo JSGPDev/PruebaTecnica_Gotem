@@ -66,7 +66,8 @@ Este repositorio contiene el código fuente de un generador de formularios diná
 
 - **Usuario administrador:**
   - Usuario: `admin`
-  - Contraseña: `admin123`
+  - email: `admin@admin.admin`
+  - Contraseña: `admin1234`
 
 ## Uso
 
