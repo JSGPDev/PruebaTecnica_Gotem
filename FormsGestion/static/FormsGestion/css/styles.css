@@ -62,7 +62,7 @@ button:hover {
     background-color: var(--background-tertiary); 
     color: var(--text-hover); 
     transform: scale(1.05); 
-    margin: auto;
+    /* margin: auto; */
 }
 
 .form-button-container input[type="reset"]:active,

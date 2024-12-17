@@ -26,6 +26,7 @@ $(document).ready(function () {
         target.focus();
 
         target.focusout(function () {
+            if(!target.hasClass("password")) label.text(target.val() !== "" ? target.val() : target.attr("placeholder"));
             label.removeClass("fucused");
         })
     }
